@@ -1,0 +1,33 @@
+port: 8081
+version: "v1.0.0"
+mode: "debug"
+name: "forum_web"
+machine_id: 1
+start_time: "2024-01-01"
+log:
+  level: "debug"
+  filename: "log/forum.log"
+  max_size: 100
+  max_age: 30
+  max_backups: 7
+mysql:
+  user_name: "root"
+  password: "123456"
+  host: ""
+  port: 13306
+  db_name: "forum"
+redis:
+  addr: ""
+  password: ""
+  db: 0
+  pool_size: 20
+email:
+  email: ""
+  password: ""
+  smtp_host: "smtp.163.com"
+  smtp_port: "465"
+kafka:
+  brokers:
+    - "" # Kafka 服务器地址
+  email_topic: "welcome-topic"
+  group_id: "email-group"
