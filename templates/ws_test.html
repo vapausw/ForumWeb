@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Test</title>
+    <style>
+        #messages {
+            width: 90%;
+            height: 300px;
+            overflow-y: scroll;
+            border: 1px solid #ccc;
+            padding: 5px;
+            margin: 10px auto;
+        }
+    </style>
+</head>
+<body>
+<h2>WebSocket Feed</h2>
+<div id="messages"></div>
+
+<script>
+    var ws;
+
+    function connect() {
+        // 替换 "ws://localhost:8080/ws" 为你的 WebSocket 服务地址
+        ws = new WebSocket('ws://localhost:8081/api/v1/ws');
+
+        ws.onopen = function() {
+            console.log('Connected to the WebSocket server.');
+        };
+
+        ws.onmessage = function(event) {
+            var messages = document.getElementById('messages');
+            var message = document.createElement('p');
+            message.textContent = "Received: " + event.data;
+            messages.appendChild(message);
+            // 滚动到最新消息
+            messages.scrollTop = messages.scrollHeight;
+        };
+
+        ws.onerror = function(error) {
+            console.error('WebSocket error:', error);
+        };
+
+        ws.onclose = function(event) {
+            console.log('WebSocket connection closed:', event);
+            // 可选：尝试重新连接
+            setTimeout(connect, 1000);
+        };
+    }
+
+    // 页面加载完毕时连接 WebSocket
+    window.onload = connect;
+</script>
+</body>
+</html>
